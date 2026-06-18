@@ -71,6 +71,13 @@ bool UTBImGuiExamplesSubsystem::ShouldCreateSubsystem(UObject* InOuter) const
 
 void UTBImGuiExamplesSubsystem::Initialize(FSubsystemCollectionBase& InCollection)
 {
+	ImGuiSubsystemWeak = InCollection.InitializeDependency<UTBImGuiSubsystem>();
+	if (!ImGuiSubsystemWeak.IsValid() || !ImGuiSubsystemWeak->HasContext())
+	{
+		UE_LOG(LogTBImGuiExamplesSubsystem, Warning, TEXT("UTBImGuiSubsystem could not be initialized! Cannot initialize UTBImGuiExamplesSubsystem!"));
+		return;
+	}
+	
 	UGameInstance* const GameInstance = GetGameInstance();
 	if (!IsValid(GameInstance))
 	{
@@ -84,22 +91,15 @@ void UTBImGuiExamplesSubsystem::Initialize(FSubsystemCollectionBase& InCollectio
 		return;
 	}
 	
-	ImGuiSubsystemWeak = GameInstance->GetSubsystem<UTBImGuiSubsystem>();
-	if (!ImGuiSubsystemWeak.IsValid())
-	{
-		UE_LOG(LogTBImGuiExamplesSubsystem, Warning, TEXT("Cannot find valid UTBImGuiSubsystem! Cannot initialize UTBImGuiExamplesSubsystem!"));
-		return;
-	}
+	// Create the menu bar that will host all the example content.
+	ExampleMenuBar = NewObject<UTBImGuiExamplesMenuBar>(this);
+	ExampleMenuBar->Initialize();
 	
-	// If we already have a valid context, we have already initialized ImGui on this game instance.
-	if (ImGuiSubsystemWeak->HasContext())
+	// Bind to the ImGui context's pre-render event to draw our example ImGui content every frame.
+	FTBImGuiContextScope ContextScope(GameInstance);
+	if (ContextScope.IsValid())
 	{
-		OnImGuiInitialized();
-	}
-	else
-	{
-		ImGuiSubsystemWeak->BindImGuiInitialized(FSimpleMulticastDelegate::FDelegate::CreateUObject
-			(this, &UTBImGuiExamplesSubsystem::OnImGuiInitialized));
+		ContextScope->OnPreRender().AddUObject(this, &UTBImGuiExamplesSubsystem::OnImGuiFrame);
 	}
 	
 	// Set initial example content visibility.
@@ -171,43 +171,6 @@ void UTBImGuiExamplesSubsystem::TryUpdateImGuiInputMode()
 	ImGuiContext->SetInputMode(bShowExampleContent ? ImGuiExamplesSettings->InputModeEnabled : ImGuiExamplesSettings->InputModeDisabled);
 }
 
-void UTBImGuiExamplesSubsystem::OnImGuiInitialized()
-{
-	UGameInstance* const GameInstance = GetGameInstance();
-	if (!IsValid(GameInstance))
-	{
-		UE_LOG(LogTBImGuiExamplesSubsystem, Warning, TEXT("Cannot find a valid game instance! Cannot bind ImGui frame!"));
-		return;
-	}
-	
-	UTBImGuiSubsystem* const ImGuiSubsystem = GameInstance->GetSubsystem<UTBImGuiSubsystem>();
-	if (!IsValid(ImGuiSubsystem))
-	{
-		UE_LOG(LogTBImGuiExamplesSubsystem, Warning, TEXT("Cannot find valid UTBImGuiSubsystem! Cannot bind ImGui frame!"));
-		return;
-	}
-	
-	ImGuiSubsystem->BindImGuiShutdown(FSimpleMulticastDelegate::FDelegate::CreateUObject
-		(this, &UTBImGuiExamplesSubsystem::OnImGuiShutdown));
-	
-	// Create the menu bar that will host all the example content.
-	ExampleMenuBar = NewObject<UTBImGuiExamplesMenuBar>(this);
-	ExampleMenuBar->Initialize();
-	
-	// Bind to the ImGui context's pre-render event to draw our example ImGui content every frame.
-	FTBImGuiContextScope ContextScope(GameInstance);
-	if (ContextScope.IsValid())
-	{
-		ContextScope->BindPreRender(FSimpleMulticastDelegate::FDelegate::CreateUObject
-			(this, &UTBImGuiExamplesSubsystem::OnImGuiFrame));
-	}
-}
-
-void UTBImGuiExamplesSubsystem::OnImGuiShutdown()
-{
-	ExampleMenuBar = nullptr;
-}
-
 void UTBImGuiExamplesSubsystem::OnImGuiFrame()
 {
 	if (!ensureMsgf(IsValid(ExampleMenuBar), TEXT("Cannot render example content without the menu bar!")))
@@ -251,7 +214,7 @@ void UTBImGuiExamplesSubsystem::UpdateNetImGuiVisibility()
 	
 	if (bShowExampleContent)
 	{
-		// When NetImGui is disconnected update the visibility.
+		// When NetImGui is disconnected, update the visibility.
 		if (bVisibleFromConnection && !ImGuiSubsystemWeak->IsHostConnected())
 		{
 			SetImGuiVisibility(false, false);
@@ -260,7 +223,7 @@ void UTBImGuiExamplesSubsystem::UpdateNetImGuiVisibility()
 	}
 	else
 	{
-		// When NetImGui is first connected update the visibility for NetImGui connection.
+		// When NetImGui is first connected, update the visibility for NetImGui connection.
 		if (!bVisibleFromConnection && ImGuiSubsystemWeak->IsHostConnected())
 		{
 			SetImGuiVisibility(true, false);

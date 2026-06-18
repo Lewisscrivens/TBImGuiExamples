@@ -44,12 +44,6 @@ protected:
 	/// @brief Update ImGui example input state based off visibility.
 	void TryUpdateImGuiInputMode();
 	
-	/// @brief Initialize various ImGui example content.
-	void OnImGuiInitialized();
-	
-	/// @brief Shutdown and clean up any ImGui example content.
-	void OnImGuiShutdown();
-	
 	/// @brief Called when ImGui is drawing a new frame.
 	void OnImGuiFrame();
 	

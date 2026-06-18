@@ -185,7 +185,7 @@ void FTBImGuiExamplesEditorModule::OpenExampleSlateWindow()
 		{
 			const ImGuiID MainViewportDockSpaceId = ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport(), ImGuiDockNodeFlags_AutoHideTabBar);
 			ImGui::SetNextWindowDockID(MainViewportDockSpaceId);
-			FTBImGuiDemo::ShowDemoWindow();
+			FTBImGuiDemo::ShowWindow();
 		}));
 	
 	// Instance the window.
@@ -299,8 +299,7 @@ void FTBImGuiExamplesEditorModule::DrawImPlot3DDemoContents()
 
 void FTBImGuiExamplesEditorModule::OnImGuiEditorContextCreated(const TSharedPtr<FTBImGuiContext> InContext)
 {
-	InContext->BindPreRender(FSimpleMulticastDelegate::FDelegate::CreateRaw
-		(this, &FTBImGuiExamplesEditorModule::DrawExampleContent));
+	InContext->OnPreRender().AddRaw(this, &FTBImGuiExamplesEditorModule::DrawExampleContent);
 }
 
 void FTBImGuiExamplesEditorModule::DrawExampleContent()

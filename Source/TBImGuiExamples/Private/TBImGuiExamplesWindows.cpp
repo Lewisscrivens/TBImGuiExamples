@@ -177,7 +177,7 @@ UTBImGuiExamplesWindow_TBImGuiDemo::UTBImGuiExamplesWindow_TBImGuiDemo()
 
 void UTBImGuiExamplesWindow_TBImGuiDemo::DrawWindow()
 {
-	FTBImGuiDemo::ShowDemoWindow(&bWindowOpen);
+	FTBImGuiDemo::ShowWindow(&bWindowOpen);
 }
 
 #pragma region Actor List Example
@@ -285,7 +285,7 @@ void UTBImGuiExamplesWindow_Actors::DrawWindowContent()
 					}
 	
 					ImGui::SameLine();
-					ImGui::TextUnformatted(TCHAR_TO_ANSI(*Actor->GetName()));
+					ImGui::Text("%s", TCHAR_TO_ANSI(*Actor->GetName()));
 				}
 				
 				// In the second column show the actors class type.
@@ -293,7 +293,7 @@ void UTBImGuiExamplesWindow_Actors::DrawWindowContent()
 				{
 					const UClass* const ActorClass = Actor->GetClass();
 					const FString ActorType = IsValid(ActorClass) ? ActorClass->GetName() : "Null Type";
-					ImGui::TextUnformatted(TCHAR_TO_ANSI(*ActorType));
+					ImGui::Text("%s", TCHAR_TO_ANSI(*ActorType));
 				}
 				
 				// Add a context menu so that when the row is right-clicked, we can destroy the actor.
@@ -340,7 +340,7 @@ void UTBImGuiExamplesWindow_Actors::RefreshActorList()
 		return;
 	}
 	
-	const FString SearchString = ActorSearchFilter ? ANSI_TO_TCHAR(ActorSearchFilter) : FString();
+	const FString SearchString = UTF8_TO_TCHAR(ActorSearchFilter);
 	const bool bSearchActive = !SearchString.IsEmpty();
 	
 	// Populate the ActorList with all actors in the world that are not abstract and match the search filter if it is active.
