@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"EngineAssociation": "5.7",
-	"Category": "",
+	"Category": "Toolbox",
 	"Description": "Example for TBImGui plugin usage at both runtime and in the editor.",
 	"Modules": [
 		{

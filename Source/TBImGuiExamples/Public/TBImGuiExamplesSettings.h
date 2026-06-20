@@ -22,6 +22,13 @@ public:
 		return GetDefault<UTBImGuiExamplesSettings>();
 	}
 	
+	/// Begin UDeveloperSettings Override
+	virtual FName GetCategoryName() const override
+	{
+		return TEXT("Toolbox");
+	}
+	/// End UDeveloperSettings Override
+	
 	/// Should the ImGui viewport content be shown on game start?
 	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly)
 	bool bShowImGuiExamplesOnStartup = true;
