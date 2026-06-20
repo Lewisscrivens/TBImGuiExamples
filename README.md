@@ -83,7 +83,7 @@ These examples can be accessed from the editor's `Tools > ImGui > ImGui Examples
 - **Slate Tabs** — ImGui context and content rendered within a 'SDockTab'.
 - **Editor Main Frame** — ImGui window rendered in the editor main frame.
 
-<img width="263" height="137" alt="UnrealEditor_Sdvvwj14os" src="https://github.com/user-attachments/assets/078291f3-3076-4d95-9746-7ce663a14e9c" />
+<img width="105.2" height="54.8" alt="UnrealEditor_Sdvvwj14os" src="https://github.com/user-attachments/assets/078291f3-3076-4d95-9746-7ce663a14e9c" />
 
 <p>&nbsp;</p>
 
