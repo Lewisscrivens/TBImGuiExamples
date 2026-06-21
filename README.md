@@ -133,8 +133,6 @@ Project Settings > Toolbox > ImGui Toolbox Examples
 |--------------------------------------|---------------------------------------------------------------------------------|
 | `TB.ImGuiExamples.ToggleImGuiContent` | Toggle the ImGui visibility and input state for the runtime examples content.   |
 
-The example project also supports the plugin commands documented in the main TBImGui README.
-
 <p>&nbsp;</p>
 
 ## 📦 TBImGui Plugin
