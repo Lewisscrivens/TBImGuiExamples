@@ -2,7 +2,7 @@
 
 # ImGui Toolbox Example Project
 
-![UE Version](https://img.shields.io/badge/UE-5.7-blue)
+![UE Version](https://img.shields.io/badge/UE-5.8-blue)
 ![GitHub issues](https://img.shields.io/github/issues/Lewisscrivens/TBImGuiExamples)
 ![GitHub discussions](https://img.shields.io/github/discussions/Lewisscrivens/TBImGuiExamples)
 
