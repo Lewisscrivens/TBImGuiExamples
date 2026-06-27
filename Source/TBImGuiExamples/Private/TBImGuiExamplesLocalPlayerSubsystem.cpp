@@ -2,7 +2,10 @@
 
 #include "TBImGuiExamplesLocalPlayerSubsystem.h"
 
+#include <Engine/World.h>
+#include <Engine/GameInstance.h>
 #include <GameFramework/PlayerInput.h>
+#include <GameFramework/PlayerController.h>
 
 #include "TBImGuiExamplesSubsystem.h"
 

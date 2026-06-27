@@ -3,6 +3,7 @@
 #pragma once
 
 #include <UObject/Object.h>
+#include <UObject/SoftObjectPtr.h>
 
 #include "TBImGuiExamplesWindows.h"
 

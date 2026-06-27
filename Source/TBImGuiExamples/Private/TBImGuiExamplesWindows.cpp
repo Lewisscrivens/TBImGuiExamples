@@ -2,6 +2,10 @@
 
 #include "TBImGuiExamplesWindows.h"
 
+#include <Engine/Texture2D.h>
+#include <GameFramework/Pawn.h>
+#include <GameFramework/PlayerController.h>
+#include <TextureResource.h>
 #include <EngineUtils.h>
 
 THIRD_PARTY_INCLUDES_START

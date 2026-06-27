@@ -2,6 +2,9 @@
 
 #include "TBImGuiExamples/Public/TBImGuiExamplesSubsystem.h"
 
+#include <Engine/World.h>
+#include <Engine/GameInstance.h>
+
 THIRD_PARTY_INCLUDES_START
 #include <imgui.h>
 #if WITH_NETIMGUI

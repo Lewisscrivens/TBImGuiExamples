@@ -2,6 +2,9 @@
 
 #include "TBImGuiExamplesInput.h"
 
+#include <Input/Reply.h>
+#include <Engine/GameViewportClient.h>
+
 THIRD_PARTY_INCLUDES_START
 #include <imgui.h>
 THIRD_PARTY_INCLUDES_END

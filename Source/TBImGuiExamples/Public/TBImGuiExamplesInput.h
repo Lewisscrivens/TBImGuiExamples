@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <GameFramework/PlayerController.h>
+
 /// @brief Input mode for runtime viewports to interact with both the game and ImGui at the same time.
 struct FTBImGuiExamplesInputMode : public FInputModeDataBase
 {
